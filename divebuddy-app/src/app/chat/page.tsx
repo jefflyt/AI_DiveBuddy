@@ -1,8 +1,8 @@
 import ChatPlaceholder from "@/components/chat/ChatPlaceholder";
 
 export const metadata = {
-  title: "Chat — DiveBuddy",
-  description: "Chat with the DiveBuddy AI assistant",
+  title: "Chat — DovvyBuddy",
+  description: "Chat with the DovvyBuddy AI assistant",
 };
 
 export default function ChatPage() {
@@ -10,7 +10,7 @@ export default function ChatPage() {
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">Chat</h1>
-        <p className="text-sm text-muted">Ask DiveBuddy for trip suggestions or learning help.</p>
+        <p className="text-sm text-muted">Ask DovvyBuddy for trip suggestions or learning help.</p>
       </header>
 
       <section>

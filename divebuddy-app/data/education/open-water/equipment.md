@@ -3,7 +3,7 @@ title: Equipment Overview
 level: Beginner
 ---
 
-# Equipment Overview
+## Equipment Overview
 
 Diving equipment is essential for safe and comfortable dives. This module covers basic gear:
 

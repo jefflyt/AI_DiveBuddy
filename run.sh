@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Simple helper to run the DiveBuddy app from the repo root (macOS / zsh-compatible)
+# Simple helper to run the DovvyBuddy app from the repo root (macOS / zsh-compatible)
 # Usage: ./run.sh dev [port]    # start dev server (detached, logs -> /tmp/divebuddy_dev.log)
 #        ./run.sh build         # run production build
 #        ./run.sh start [port]  # run production start (foreground)

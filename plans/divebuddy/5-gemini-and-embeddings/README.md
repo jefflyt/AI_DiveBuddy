@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
 
     // Generate response with Gemini
-    const prompt = `You are DiveBuddy, a helpful AI assistant for scuba divers. 
+    const prompt = `You are DovvyBuddy, a helpful AI assistant for scuba divers. 
 You help with diving education and trip planning.
 
 User: ${message}

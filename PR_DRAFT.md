@@ -11,7 +11,7 @@ This PR implements the initial Next.js scaffold (App Router + TypeScript + Tailw
 - Implemented landing page and header (`src/app/page.tsx`, `src/app/layout.tsx`, `src/components/ui/Header.tsx`)
 - Added mock chat API route at `src/app/api/chat/route.ts` and interactive `ChatPlaceholder` client component
 - Added `run.sh` helper and `.env.example`
-- Plans updated: `plans/divebuddy/1-nextjs-setup/*` (steps 1.1–1.4) and preview snapshots
+- Plans updated: `plans/dovvybuddy/1-nextjs-setup/*` (steps 1.1–1.4) and preview snapshots
 
 ## Verification
 

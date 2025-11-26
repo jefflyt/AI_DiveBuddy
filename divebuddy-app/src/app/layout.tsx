@@ -9,7 +9,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "DiveBuddy",
+  title: "DovvyBuddy",
   description: "AI-assisted dive learning and trip planning",
 };
 

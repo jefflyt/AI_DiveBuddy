@@ -1,8 +1,8 @@
-# DiveBuddy - AI-Powered Dive Learning & Trip Planning Platform
+# DovvyBuddy - AI-Powered Dive Learning & Trip Planning Platform
 
 ## Project Overview
 
-DiveBuddy is an AI-powered chatbot website that helps scuba divers learn and plan their adventures in Malaysia and the Asia Pacific region. The platform features two core capabilities: (1) educational guidance for Open Water (OW) and Advanced Open Water (AOW) certifications using original content, and (2) intelligent trip planning with destination search focused on Malaysian dive sites. Built with RAG (Retrieval-Augmented Generation) using Supabase and Google's Gemini API with multi-agent orchestration, DiveBuddy provides accurate, context-aware responses by combining AI with a curated knowledge base.
+DovvyBuddy is an AI-powered chatbot website that helps scuba divers learn and plan their adventures in Malaysia and the Asia Pacific region. The platform features two core capabilities: (1) educational guidance for Open Water (OW) and Advanced Open Water (AOW) certifications using original content, and (2) intelligent trip planning with destination search focused on Malaysian dive sites. Built with RAG (Retrieval-Augmented Generation) using Supabase and Google's Gemini API with multi-agent orchestration, DovvyBuddy provides accurate, context-aware responses by combining AI with a curated knowledge base.
 
 ## Architecture & Technology Stack
 
@@ -85,7 +85,7 @@ Establish the basic application structure, Supabase setup, and authentication.
 
 - `package.json` - Dependencies (Next.js 14, TypeScript, Tailwind CSS, shadcn/ui)
 - `app/layout.tsx` - Root layout with navigation header
-- `app/page.tsx` - Landing page with DiveBuddy intro
+- `app/page.tsx` - Landing page with DovvyBuddy intro
 - `components/ui/*` - shadcn/ui components (Button, Card, Input, Badge)
 - `tailwind.config.ts` - Tailwind configuration with diving theme colors
 - `.env.example` - Environment variables template
@@ -251,8 +251,8 @@ export class OrchestratorAgent {
   constructor() {
     this.agent = new Agent({
       model: 'gemini-1.5-flash',
-      name: 'DiveBuddy Orchestrator',
-      instructions: `You are the orchestrator for DiveBuddy. 
+      name: 'DovvyBuddy Orchestrator',
+      instructions: `You are the orchestrator for DovvyBuddy. 
         Analyze user intent and delegate to specialist agents:
         - Education Agent: diving certification, skills, theory
         - Trip Planning Agent: destinations, travel planning`,
@@ -714,7 +714,7 @@ Optimize for production deployment with monitoring and analytics.
 
 **Description:** Deploy to Vercel, configure environment, and create documentation
 
-**Goal:** Launch DiveBuddy to production
+**Goal:** Launch DovvyBuddy to production
 
 **Key Components/Files:**
 

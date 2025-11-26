@@ -17,7 +17,7 @@ export default function Home() {
             </Badge>
 
             <h1 className="text-5xl font-black leading-tight">
-              DiveBuddy — Your AI Companion for <span className="text-ocean-600">Diving Adventures</span>
+              DovvyBuddy — Your AI Companion for <span className="text-ocean-600">Diving Adventures</span>
             </h1>
 
             <p className="mt-4 max-w-xl text-lg text-muted">
@@ -32,7 +32,7 @@ export default function Home() {
 
               <Link href="/chat" className="inline-flex items-center justify-center rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-foreground hover:bg-muted/5">
                 <MessageCircle className="mr-2 h-4 w-4" />
-                Chat with DiveBuddy
+                Chat with DovvyBuddy
               </Link>
             </div>
           </div>

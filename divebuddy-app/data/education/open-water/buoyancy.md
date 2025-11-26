@@ -3,7 +3,7 @@ title: Buoyancy Control
 level: Beginner
 ---
 
-# Buoyancy Control
+## Buoyancy Control
 
 Buoyancy control is the ability to maintain neutral buoyancy underwater, which helps conserve energy and protect marine life.
 

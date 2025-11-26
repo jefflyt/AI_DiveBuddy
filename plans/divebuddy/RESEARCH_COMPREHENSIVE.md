@@ -1,4 +1,4 @@
-# DiveBuddy Project - Comprehensive Research Document
+# DovvyBuddy Project - Comprehensive Research Document
 
 **Generated:** 26 November 2025  
 **Purpose:** Support implementation file generation with actionable technical details  
@@ -151,7 +151,7 @@ Located in `plans/divebuddy/`:
 
 ### 2.1 Core Framework
 
-**Next.js 14+**
+#### Next.js 14+
 
 - **Version:** 14.0.0 or higher
 - **Router:** App Router (not Pages Router)
@@ -1172,6 +1172,7 @@ export function MyForm() {
 **Server vs Client Components:**
 
 ❌ **Don't:**
+
 ```typescript
 // This will fail - useState in Server Component
 export default function Page() {
@@ -1181,6 +1182,7 @@ export default function Page() {
 ```
 
 ✅ **Do:**
+
 ```typescript
 'use client'
 
@@ -1326,6 +1328,7 @@ export default function Error({ error, reset }: {
 ### 7.1 Manual Testing Checklist
 
 **Phase 1 (Foundation):**
+
 - [ ] Next.js dev server starts on `http://localhost:3000`
 - [ ] Landing page loads with styled components
 - [ ] Supabase connection test returns success
@@ -1336,6 +1339,7 @@ export default function Error({ error, reset }: {
 - [ ] Chat UI renders with message bubbles
 
 **Phase 2 (AI Integration):**
+
 - [ ] Gemini API test returns text generation
 - [ ] Embedding generation returns 768-dim vector
 - [ ] Seed script populates database with chunks
@@ -1438,13 +1442,15 @@ import { cn } from '@/lib/utils'
 ### 8.3 Key URLs & Resources
 
 **Official Documentation:**
-- Next.js: https://nextjs.org/docs
-- Supabase: https://supabase.com/docs
-- Google Gemini: https://ai.google.dev/docs
-- shadcn/ui: https://ui.shadcn.com
-- Tailwind CSS: https://tailwindcss.com/docs
+
+- Next.js: <https://nextjs.org/docs>
+- Supabase: <https://supabase.com/docs>
+- Google Gemini: <https://ai.google.dev/docs>
+- shadcn/ui: <https://ui.shadcn.com>
+- Tailwind CSS: <https://tailwindcss.com/docs>
 
 **Internal Documentation:**
+
 - Master Plan: `plans/divebuddy/plan.md`
 - Quick Start: `plans/divebuddy/QUICKSTART.md`
 - Implementation Index: `plans/divebuddy/IMPLEMENTATION_INDEX.md`
@@ -1469,6 +1475,7 @@ When generating implementation files, ensure:
 ### 9.2 Priority Patterns to Use
 
 **Highest Priority:**
+
 - Next.js 14 App Router patterns (server vs client components)
 - Supabase client creation (browser vs server)
 - Google Gemini API patterns (text generation, embeddings, streaming)
@@ -1476,12 +1483,14 @@ When generating implementation files, ensure:
 - Error handling with try-catch and user-friendly messages
 
 **Medium Priority:**
+
 - shadcn/ui component usage
 - React hooks (useState, useEffect, useCallback)
 - Tailwind CSS utility classes
 - Session management patterns
 
 **Lower Priority:**
+
 - Advanced optimizations (can be added later)
 - Edge cases (document but don't over-engineer)
 - Analytics and monitoring (Phase 6)
@@ -1501,6 +1510,6 @@ Implementation files are copy-paste ready when:
 
 ---
 
-**End of Comprehensive Research Document**
+#### **End of Comprehensive Research Document**
 
-This research provides all necessary context for generating complete, production-ready implementation files for the DiveBuddy project. Use this as the authoritative reference for code patterns, API usage, and architectural decisions.
+This research provides all necessary context for generating complete, production-ready implementation files for the DovvyBuddy project. Use this as the authoritative reference for code patterns, API usage, and architectural decisions.

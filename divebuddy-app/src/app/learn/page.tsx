@@ -2,7 +2,7 @@ import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 
 export const metadata = {
-  title: "Learn — DiveBuddy",
+  title: "Learn — DovvyBuddy",
   description: "Explore Open Water and Advanced Open Water topics",
 };
 
