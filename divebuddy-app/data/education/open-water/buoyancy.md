@@ -14,6 +14,8 @@ Key points:
 - BCD adjustments: make small, incremental changes.
 - Practice hovering in shallow water before attempting deeper dives.
 
+## Buoyancy Importance
+
 Buoyancy control is the ability to maintain desired depth and trim while conserving air and energy. Mastering buoyancy is one of the most important skills for safe diving.
 
 ## Principles

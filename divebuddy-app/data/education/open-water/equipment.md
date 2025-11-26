@@ -15,7 +15,8 @@ Diving equipment is essential for safe and comfortable dives. This module covers
 - Exposure protection: wetsuit or drysuit according to water temperature.
 
 Always check and maintain your gear, and practice assembling and disassembling it before dives.
-# Equipment Overview
+
+## Equipment Basics
 
 Proper equipment selection is essential for safe and enjoyable diving. This topic covers the basic components of scuba gear, including mask, snorkel, fins, exposure protection, buoyancy control device (BCD), regulator, and tank.
 
