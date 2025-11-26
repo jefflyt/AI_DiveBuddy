@@ -19,8 +19,8 @@ export async function generateStaticParams() {
   }
 }
 
-export default function TopicPage({ params }: Props) {
-  const { topic } = params;
+export default async function TopicPage({ params }: Props) {
+  const { topic } = (await params) as { topic: string };
   const filePath = path.join(process.cwd(), "data", "education", "open-water", `${topic}.md`);
 
   if (!fs.existsSync(filePath)) return notFound();

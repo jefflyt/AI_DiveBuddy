@@ -86,6 +86,7 @@ Includes implementation guidance for:
 ### Path 1: Complete Linear (Recommended for First-Time)
 
 Follow in exact order:
+
 1. QUICKSTART.md → Get environment running
 2. Phase 1 (Foundation) → PRs 1.1 through 1.4
 3. Phase 2 (AI Integration) → PRs 2.1 through 2.3
@@ -98,6 +99,7 @@ Follow in exact order:
 ### Path 2: Minimum Viable Product (MVP)
 
 Speed-run to working chatbot:
+
 1. QUICKSTART.md
 2. PR 1.1 (Next.js)
 3. PR 1.2 (Supabase)
@@ -111,6 +113,7 @@ Speed-run to working chatbot:
 ### Path 3: Feature-First
 
 Jump to specific features:
+
 - **Want RAG?** → PR 1.2 + PR 2.2 + PR 2.3
 - **Want Auth?** → PR 1.3
 - **Want Education?** → Phase 3 overview
@@ -123,17 +126,20 @@ Jump to specific features:
 Use this checklist to track your implementation:
 
 ### Phase 1: Foundation
+
 - [ ] PR 1.1: Next.js initialized, shadcn/ui installed, landing page created
 - [ ] PR 1.2: Supabase connected, database schema created, pgvector enabled
 - [ ] PR 1.3: Authentication working, profile page functional
 - [ ] PR 1.4: Chat UI components built, messages displaying
 
 ### Phase 2: AI Integration
+
 - [ ] PR 2.1: Gemini API connected, basic text generation working
 - [ ] PR 2.2: Embeddings generated, semantic search functional
 - [ ] PR 2.3: Multi-agent system integrated, orchestrator routing requests
 
 ### Phase 3-6: Features
+
 - [ ] Phase 3: Education modules created
 - [ ] Phase 4: Malaysia destinations seeded
 - [ ] Phase 5: APAC destinations added
