@@ -400,6 +400,7 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 ## Testing Checklist
 
 ### Error Tracking
+
 - [ ] Trigger intentional error - verify captured in Sentry
 - [ ] Check error details include stack trace, context
 - [ ] Verify source maps uploaded (for readable stack traces)
@@ -407,6 +408,7 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 - [ ] Confirm 404 and 401 errors filtered out
 
 ### Analytics
+
 - [ ] Page views tracked correctly
 - [ ] Custom events fire (e.g., "Chat Sent", "Destination Saved")
 - [ ] User identification works
@@ -414,6 +416,7 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
 - [ ] Analytics disabled in development
 
 ### Logging
+
 - [ ] Logs appear in console (development)
 - [ ] Error logs sent to Sentry
 - [ ] Log context includes relevant data

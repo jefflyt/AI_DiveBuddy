@@ -144,22 +144,26 @@ Use this checklist to track your implementation:
 ## 🛠️ Key Files Reference
 
 ### Configuration
+
 - `.env.local` - Environment variables (create from QUICKSTART.md)
 - `middleware.ts` - Auth protection (PR 1.3)
 - `tailwind.config.ts` - UI styling (PR 1.1)
 
 ### Core Libraries
+
 - `lib/supabase/` - Database clients (PR 1.2)
 - `lib/gemini/` - AI model utilities (PR 2.1)
 - `lib/agents/` - Multi-agent system (PR 2.3)
 - `lib/embeddings/` - RAG pipeline (PR 2.2)
 
 ### Components
+
 - `components/chat/` - Chat interface (PR 1.4)
 - `components/ui/` - shadcn/ui components (PR 1.1)
 - `components/education/` - Learning modules (Phase 3)
 
 ### API Routes
+
 - `app/api/chat/` - Agent endpoints (PR 2.3)
 - `app/api/auth/` - Authentication (PR 1.3)
 - `app/api/progress/` - User tracking (Phase 3)
@@ -169,6 +173,7 @@ Use this checklist to track your implementation:
 ## 📚 Documentation Links
 
 ### External Resources
+
 - **Next.js:** https://nextjs.org/docs
 - **Supabase:** https://supabase.com/docs
 - **Google Gemini:** https://ai.google.dev/docs
@@ -176,6 +181,7 @@ Use this checklist to track your implementation:
 - **shadcn/ui:** https://ui.shadcn.com
 
 ### Internal Docs
+
 - **Master Plan:** [`plan.md`](./plan.md)
 - **Quick Reference:** [`README.md`](./README.md)
 - **Prompt Templates:** [`../Prompt/`](../Prompt/)
@@ -209,6 +215,7 @@ Use this checklist to track your implementation:
 After implementing each phase, verify:
 
 ### Phase 1 Verification
+
 ```bash
 # Run dev server
 npm run dev
@@ -227,6 +234,7 @@ curl http://localhost:3000/api/test-supabase
 ```
 
 ### Phase 2 Verification
+
 ```bash
 # Test Gemini API
 curl http://localhost:3000/api/test-gemini
