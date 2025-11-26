@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   try {
     const files = fs.readdirSync(dataDir).filter((f) => f.endsWith(".md"));
     return files.map((f) => ({ topic: f.replace(/\.md$/, "") }));
-  } catch (_e) {
+  } catch {
     return [];
   }
 }
