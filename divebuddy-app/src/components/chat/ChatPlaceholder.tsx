@@ -42,7 +42,7 @@ export default function ChatPlaceholder() {
         else copy.push(reply);
         return copy;
       });
-    } catch (err) {
+    } catch (_err) {
       setMessages((m) => {
         const copy = [...m];
         const idx = copy.findIndex((x) => x.pending);
