@@ -47,7 +47,8 @@
 
 - **Vector DB:** Supabase pgvector (free tier)
 - **LLM:** Google Gemini 1.5 Flash (free tier: 15 RPM)
-- **Multi-Agent:** LangGraph for education vs. trip planning routing
+- **Multi-Agent:** Google AI Agent Framework with orchestrator pattern
+- **Tools:** Vector search, intent classification, session management
 - **Auth:** Email/password via Supabase Auth
 - **Geographic Scope:** Malaysia first, then APAC
 - **Content:** Original diving education material (no copyrighted content)

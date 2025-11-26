@@ -15,40 +15,57 @@ A modern full-stack application with Next.js for the frontend/API layer, Supabas
 - **Next.js 14+** (App Router): Full-stack framework with server components, API routes, and excellent SEO
 - **TypeScript**: Type safety across frontend and backend
 - **Google Gemini API**: LLM for chat responses (free tier available)
-- **LangGraph**: Multi-agent framework orchestration (Google ADK compatible)
+- **Google AI Agent Framework**: Multi-agent orchestration with tools and MCP (Model Context Protocol)
 - **Supabase**: PostgreSQL database + pgvector for RAG retrieval + Auth
-- **LangChain**: RAG pipeline and embedding management
+- **@google/generative-ai**: Official Gemini SDK with function calling and streaming
 - **Vercel AI SDK**: Streaming chat UI integration
 - **Tailwind CSS + shadcn/ui**: Modern, accessible UI components
 
 ### High-Level Architecture
 
-```
+```plaintext
 User Browser
     ↓
 Next.js App (Frontend + API Routes)
     ↓
-    ├──→ LangGraph Multi-Agent System
-    │       ├──→ Education Agent (OW/AOW content)
-    │       ├──→ Trip Planning Agent (Malaysia destinations)
-    │       └──→ Router Agent (intent classification)
+    ├──→ Google AI Agent Framework
+    │       ├──→ Orchestrator Agent (session management, routing)
+    │       │     └──→ Tools: intent classification, context retrieval
+    │       │
+    │       ├──→ Education Agent (OW/AOW specialist)
+    │       │     └──→ Tools: vector search (education docs), Gemini function calls
+    │       │
+    │       └──→ Trip Planning Agent (Malaysia/APAC specialist)
+    │             └──→ Tools: vector search (destinations), destination filters
     │
-    ├──→ Supabase
-    │       ├──→ PostgreSQL (user data, chat history)
+    ├──→ Supabase (MCP Server integration)
+    │       ├──→ PostgreSQL (user data, chat history, sessions)
     │       ├──→ pgvector (embeddings for RAG)
     │       └──→ Auth (email/password)
     │
     └──→ Google Gemini API
-            ├──→ Gemini 1.5 Flash (chat completions)
-            └──→ text-embedding-004 (embeddings)
+            ├──→ Gemini 1.5 Flash (chat completions with function calling)
+            └──→ text-embedding-004 (document embeddings)
 ```
 
-**Multi-Agent Flow:**
-1. User message → Router Agent analyzes intent (education vs. trip planning)
-2. Router delegates to Education Agent or Trip Planning Agent
-3. Specialist agent retrieves context from Supabase pgvector
-4. Agent generates response using Gemini API
-5. Response streams back to user
+**Multi-Agent Flow (Google AI Agent Framework):**
+
+1. User message → Orchestrator Agent creates/resumes session
+2. Orchestrator uses **intent classification tool** to determine: education vs. trip planning
+3. Orchestrator delegates to specialist agent (Education or Trip Planning)
+4. Specialist agent executes tools:
+   - **Vector search tool** → Queries Supabase pgvector for relevant context
+   - **Gemini function calling** → Generates response with retrieved context
+5. Agent maintains **session memory** (conversation history, context)
+6. Response streams back to user via Vercel AI SDK
+7. Session state persisted to Supabase for continuity
+
+**Key Framework Features:**
+
+- **Tools**: Vector search, destination filters, session management
+- **MCP (Model Context Protocol)**: Supabase integration as context provider
+- **Sessions**: Persistent conversation state with memory
+- **Quality**: Structured outputs, guardrails, error handling
 
 ## Project Phases & PR Breakdown
 
@@ -65,6 +82,7 @@ Establish the basic application structure, Supabase setup, and authentication.
 **Goal:** Create a production-ready Next.js foundation with modern tooling
 
 **Key Components/Files:**
+
 - `package.json` - Dependencies (Next.js 14, TypeScript, Tailwind CSS, shadcn/ui)
 - `app/layout.tsx` - Root layout with navigation header
 - `app/page.tsx` - Landing page with DiveBuddy intro
@@ -87,6 +105,7 @@ Establish the basic application structure, Supabase setup, and authentication.
 **Goal:** Enable database storage, vector search, and authentication foundation
 
 **Key Components/Files:**
+
 - `lib/supabase/client.ts` - Supabase client (browser)
 - `lib/supabase/server.ts` - Supabase client (server-side)
 - `supabase/migrations/001_initial_schema.sql` - Database schema
@@ -113,6 +132,7 @@ Establish the basic application structure, Supabase setup, and authentication.
 **Goal:** Enable user signup, login, and session management
 
 **Key Components/Files:**
+
 - `app/auth/login/page.tsx` - Login page
 - `app/auth/signup/page.tsx` - Signup page
 - `components/auth/AuthForm.tsx` - Reusable auth form
@@ -135,6 +155,7 @@ Establish the basic application structure, Supabase setup, and authentication.
 **Goal:** Create functional chat UI ready for AI integration
 
 **Key Components/Files:**
+
 - `app/chat/page.tsx` - Chat page route (protected)
 - `components/chat/ChatContainer.tsx` - Main chat wrapper
 - `components/chat/MessageList.tsx` - Message display with auto-scroll
@@ -161,6 +182,7 @@ Integrate Google Gemini API and build the LangGraph multi-agent system.
 **Goal:** Establish LLM integration with streaming responses using Vercel AI SDK
 
 **Key Components/Files:**
+
 - `lib/ai/gemini.ts` - Gemini API client configuration
 - `app/api/chat/route.ts` - Streaming chat API endpoint
 - `hooks/useChat.ts` - Client-side chat hook with streaming
@@ -182,6 +204,7 @@ Integrate Google Gemini API and build the LangGraph multi-agent system.
 **Goal:** Prepare vector storage for RAG retrieval
 
 **Key Components/Files:**
+
 - `lib/ai/embeddings.ts` - Text embedding using Gemini text-embedding-004
 - `lib/ai/chunking.ts` - Document chunking utility (recursive character split)
 - `scripts/seed-embeddings.ts` - Script to embed and store documents
@@ -194,27 +217,157 @@ Integrate Google Gemini API and build the LangGraph multi-agent system.
 
 ---
 
-#### PR 2.3: LangGraph Multi-Agent Framework
+#### PR 2.3: Google AI Agent Framework Integration
 
-**Branch:** `2.3-langgraph-agents`
+**Branch:** `2.3-google-ai-agents`
 
-**Description:** Build LangGraph multi-agent system with router and specialist agents
+**Description:** Build multi-agent system using Google AI Agent Framework with orchestrator and specialist agents
 
-**Goal:** Implement intelligent routing between education and trip planning agents
+**Goal:** Implement intelligent routing between education and trip planning agents with session management
 
 **Key Components/Files:**
-- `lib/agents/router.ts` - Router agent (classifies user intent)
-- `lib/agents/education.ts` - Education specialist agent
-- `lib/agents/trip-planning.ts` - Trip planning specialist agent
-- `lib/agents/graph.ts` - LangGraph workflow definition
-- `lib/agents/state.ts` - Shared agent state types
-- `app/api/chat/route.ts` - Update to use multi-agent graph
+
+- `lib/agents/orchestrator.ts` - Orchestrator agent with session and routing logic
+- `lib/agents/education-agent.ts` - Education specialist agent with tools
+- `lib/agents/trip-planning-agent.ts` - Trip planning specialist agent
+- `lib/agents/tools/vector-search.ts` - Vector search tool for RAG retrieval
+- `lib/agents/tools/intent-classifier.ts` - Intent classification tool
+- `lib/agents/session-manager.ts` - Session state and memory management
+- `lib/agents/config.ts` - Agent configurations and prompts
+- `app/api/chat/route.ts` - Update to use Google AI Agent Framework
+
+**Implementation Details:**
+
+Using Google AI Agent Framework patterns:
+
+```typescript
+// lib/agents/orchestrator.ts
+import { Agent, Tool } from '@google/generative-ai/agents'
+
+export class OrchestratorAgent {
+  private agent: Agent
+  private sessionManager: SessionManager
+  
+  constructor() {
+    this.agent = new Agent({
+      model: 'gemini-1.5-flash',
+      name: 'DiveBuddy Orchestrator',
+      instructions: `You are the orchestrator for DiveBuddy. 
+        Analyze user intent and delegate to specialist agents:
+        - Education Agent: diving certification, skills, theory
+        - Trip Planning Agent: destinations, travel planning`,
+      tools: [intentClassifierTool, sessionManagementTool]
+    })
+  }
+
+  async handleMessage(message: string, sessionId: string) {
+    const session = await this.sessionManager.getOrCreate(sessionId)
+    const intent = await this.classifyIntent(message, session)
+    
+    const specialistAgent = intent === 'education' 
+      ? educationAgent 
+      : tripPlanningAgent
+    
+    return await specialistAgent.execute(message, session)
+  }
+}
+
+// lib/agents/tools/vector-search.ts
+export const vectorSearchTool: Tool = {
+  name: 'search_knowledge_base',
+  description: 'Search diving knowledge base using vector similarity',
+  parameters: {
+    query: 'string',
+    category: 'education | destinations',
+    limit: 'number'
+  },
+  execute: async ({ query, category, limit = 5 }) => {
+    const embedding = await embed(query)
+    const results = await supabase.rpc('match_documents', {
+      query_embedding: embedding,
+      match_threshold: 0.7,
+      match_count: limit,
+      filter: { category }
+    })
+    return results.data
+  }
+}
+
+// lib/agents/education-agent.ts
+export class EducationAgent {
+  private agent: Agent
+  
+  constructor() {
+    this.agent = new Agent({
+      model: 'gemini-1.5-flash',
+      name: 'Diving Education Expert',
+      instructions: `You are a certified diving instructor assistant.
+        Help learners understand OW and AOW concepts.
+        Use the search_knowledge_base tool to retrieve accurate content.`,
+      tools: [vectorSearchTool],
+      config: {
+        temperature: 0.3, // More deterministic for education
+        maxOutputTokens: 1024
+      }
+    })
+  }
+  
+  async execute(message: string, session: Session) {
+    return await this.agent.chat(message, {
+      sessionId: session.id,
+      history: session.messages
+    })
+  }
+}
+```
+
+**Session Management (MCP Pattern):**
+
+```typescript
+// lib/agents/session-manager.ts
+export class SessionManager {
+  async getOrCreate(sessionId: string): Promise<Session> {
+    let session = await supabase
+      .from('chat_sessions')
+      .select('*, messages(*)')
+      .eq('id', sessionId)
+      .single()
+    
+    if (!session.data) {
+      session = await supabase
+        .from('chat_sessions')
+        .insert({ id: sessionId, context: {} })
+        .select()
+        .single()
+    }
+    
+    return {
+      id: session.data.id,
+      messages: session.data.messages || [],
+      context: session.data.context || {}
+    }
+  }
+  
+  async addMessage(sessionId: string, role: 'user' | 'agent', content: string) {
+    await supabase.from('messages').insert({
+      session_id: sessionId,
+      role,
+      content,
+      timestamp: new Date()
+    })
+  }
+}
+```
 
 **Dependencies:** PR 2.2
 
-**Testing:** 
-- Send "Tell me about buoyancy control" → Education agent responds
-- Send "Where can I dive in Malaysia?" → Trip planning agent responds
+**Testing:**
+
+- Send "Tell me about buoyancy control" → Education agent responds with retrieved OW content
+- Send "Where can I dive in Malaysia?" → Trip planning agent responds with destinations
+- Verify session persistence across multiple messages
+- Test intent classification accuracy (education vs. trip planning)
+- Validate tool execution (vector search returns relevant results)
 
 ---
 
@@ -231,6 +384,7 @@ Build the certification learning assistant with original OW/AOW content.
 **Goal:** Populate knowledge base with comprehensive diving education materials
 
 **Key Components/Files:**
+
 - `data/education/open-water/` - OW topics (15-20 markdown files)
   - `equipment.md` - Diving equipment overview
   - `buoyancy.md` - Buoyancy control techniques
@@ -249,7 +403,8 @@ Build the certification learning assistant with original OW/AOW content.
 
 **Dependencies:** PR 2.3
 
-**Testing:** 
+**Testing:**
+
 - Run seed script
 - Ask "What is the buddy system?" → Verify accurate response with source
 
@@ -264,20 +419,61 @@ Build the certification learning assistant with original OW/AOW content.
 **Goal:** Help learners navigate OW/AOW topics systematically
 
 **Key Components/Files:**
-- `app/learn/page.tsx` - Education landing page
-- `app/learn/ow/page.tsx` - Open Water topics page
-- `app/learn/aow/page.tsx` - Advanced OW topics page
+
+- `app/learn/page.tsx` - Education landing page with certification cards
+- `app/learn/[certification]/page.tsx` - Dynamic topic browsing page
+- `app/learn/[certification]/[topic]/page.tsx` - Individual topic detail page
 - `components/education/TopicCard.tsx` - Individual topic card
-- `components/education/CertificationBadge.tsx` - OW/AOW badge icons
-- `app/api/education/topics/route.ts` - Topic metadata API
-- `lib/agents/education.ts` - Add topic context to prompts
+- `components/education/CertificationCard.tsx` - OW/AOW certification cards
+- `components/education/ProgressBadge.tsx` - Module completion badges
+- `app/api/education/topics/[topicId]/route.ts` - Topic metadata API
+- `app/chat/page.tsx` - Update with education context support
+- `lib/agents/orchestrator.ts` - Add systemContext parameter
 
 **Dependencies:** PR 3.1
 
-**Testing:** 
-- Navigate to /learn
-- Click on OW topic → Opens chat with topic context pre-loaded
+**Testing:**
+
+- Navigate to /learn → See certification cards
+- Click OW card → Browse all OW topics grouped by module
+- Click topic → Read content with markdown rendering
+- Click "Ask AI Tutor" → Opens chat with topic context pre-loaded
 - Verify agent responds with topic-specific information
+
+---
+
+#### PR 3.3: Quiz System & Knowledge Validation
+
+**Branch:** `3.3-quiz-system`
+
+**Description:** Add interactive quizzes to validate learning and track progress
+
+**Goal:** Enable knowledge validation through quizzes with instant feedback and progress tracking
+
+**Key Components/Files:**
+
+- `components/quiz/QuizQuestion.tsx` - Multiple choice question component
+- `components/quiz/QuizResults.tsx` - Score display and pass/fail feedback
+- `components/quiz/Quiz.tsx` - Quiz container with state management
+- `components/quiz/QuizStats.tsx` - Performance statistics component
+- Database tables: `quiz_attempts`, `quiz_answers`
+- `app/api/quiz/submit/route.ts` - Quiz submission and scoring
+- `app/api/quiz/stats/[topicId]/route.ts` - Statistics endpoint
+- `app/api/quiz/attempts/[attemptId]/route.ts` - Attempt details
+- `app/learn/quiz-history/page.tsx` - Quiz performance dashboard
+- `app/learn/[certification]/[topic]/page.tsx` - Update to include quiz
+- SQL functions: `get_topic_quiz_stats`, `get_recent_quiz_attempts`
+
+**Dependencies:** PR 3.2
+
+**Testing:**
+
+- Complete a topic quiz → Score calculated correctly
+- Pass quiz (70%+) → User progress updated
+- View /learn/quiz-history → See all attempts and statistics
+- Retake quiz → New attempt recorded
+- Check database → `quiz_attempts` and `quiz_answers` populated
+- Verify RLS policies allow user access to own data
 
 ---
 
@@ -294,6 +490,7 @@ Build destination search and trip planning for Malaysian dive sites.
 **Goal:** Populate knowledge base with Malaysian dive sites (Sipadan, Tioman, Perhentian, etc.)
 
 **Key Components/Files:**
+
 - `data/destinations/malaysia/` - Destination markdown files
   - `sipadan.md` - Sipadan Island (Sabah)
   - `mabul.md` - Mabul Island (Sabah)
@@ -310,7 +507,8 @@ Build destination search and trip planning for Malaysian dive sites.
 
 **Dependencies:** PR 2.3
 
-**Testing:** 
+**Testing:**
+
 - Run seed script
 - Ask "Where can I see turtles in Malaysia?" → Verify Sipadan/Perhentian suggested
 
@@ -325,6 +523,7 @@ Build destination search and trip planning for Malaysian dive sites.
 **Goal:** Enable users to discover dive sites matching their criteria
 
 **Key Components/Files:**
+
 - `app/destinations/page.tsx` - Destination browser page
 - `app/destinations/[slug]/page.tsx` - Individual destination detail page
 - `components/destinations/DestinationCard.tsx` - Destination preview card
@@ -335,7 +534,8 @@ Build destination search and trip planning for Malaysian dive sites.
 
 **Dependencies:** PR 4.1
 
-**Testing:** 
+**Testing:**
+
 - Navigate to /destinations
 - Apply filters (e.g., "Beginner" + "East Malaysia") → Verify filtered results
 - Click destination → View detail page
@@ -351,6 +551,7 @@ Build destination search and trip planning for Malaysian dive sites.
 **Goal:** Let users chat to plan trips with AI-suggested Malaysian dive sites
 
 **Key Components/Files:**
+
 - `components/chat/DestinationCard.tsx` - Rich destination card in chat
 - `lib/agents/trip-planning.ts` - Enhanced prompts for destination recommendations
 - `lib/agents/tools/destination-search.ts` - Tool for agent to search destinations
@@ -359,7 +560,8 @@ Build destination search and trip planning for Malaysian dive sites.
 
 **Dependencies:** PR 4.2
 
-**Testing:** 
+**Testing:**
+
 - Ask "I'm a beginner, where should I dive in Malaysia?"
 - Verify agent suggests 2-3 destinations with cards (Tioman, Redang, Perhentian)
 - Click "View Details" → Opens destination page
@@ -379,6 +581,7 @@ Expand coverage to Asia Pacific and add user personalization.
 **Goal:** Expand trip planning coverage beyond Malaysia
 
 **Key Components/Files:**
+
 - `data/destinations/thailand/` - Thailand destinations (Similan, Phi Phi, Koh Tao, etc.)
 - `data/destinations/philippines/` - Philippines destinations (Tubbataha, Apo Reef, Moalboal, etc.)
 - `data/destinations/indonesia/` - Indonesia destinations (Raja Ampat, Komodo, Bali, etc.)
@@ -389,7 +592,8 @@ Expand coverage to Asia Pacific and add user personalization.
 
 **Dependencies:** PR 4.3
 
-**Testing:** 
+**Testing:**
+
 - Ask "Best dive sites in Indonesia?" → Verify Raja Ampat, Komodo suggested
 - Filter destinations by "Philippines" → Verify Filipino sites shown
 
@@ -404,6 +608,7 @@ Expand coverage to Asia Pacific and add user personalization.
 **Goal:** Provide personalized experience with saved data
 
 **Key Components/Files:**
+
 - `app/saved/page.tsx` - Saved destinations page
 - `components/destinations/SaveButton.tsx` - Heart icon to save/unsave
 - `app/api/saved/route.ts` - Save/unsave destinations API
@@ -412,7 +617,8 @@ Expand coverage to Asia Pacific and add user personalization.
 
 **Dependencies:** PR 5.1
 
-**Testing:** 
+**Testing:**
+
 - Click heart icon on destination → Save to favorites
 - Navigate to /saved → Verify saved destinations displayed
 - Create trip list "Malaysia 2025" → Add multiple destinations
@@ -428,6 +634,7 @@ Expand coverage to Asia Pacific and add user personalization.
 **Goal:** Enable users to continue previous conversations
 
 **Key Components/Files:**
+
 - `app/history/page.tsx` - Chat history page
 - `components/chat/SessionList.tsx` - List of previous chat sessions
 - `app/api/sessions/route.ts` - Create/list sessions API
@@ -437,7 +644,8 @@ Expand coverage to Asia Pacific and add user personalization.
 
 **Dependencies:** PR 5.2
 
-**Testing:** 
+**Testing:**
+
 - Start chat → Messages auto-save to Supabase
 - Navigate to /history → Verify previous chats listed
 - Click chat → Resume conversation from where it left off
@@ -457,6 +665,7 @@ Optimize for production deployment with monitoring and analytics.
 **Goal:** Ensure fast load times and efficient resource usage
 
 **Key Components/Files:**
+
 - `next.config.js` - Enable compression, image optimization
 - `lib/supabase/cache.ts` - Redis caching layer (or Vercel KV)
 - `app/api/*/route.ts` - Add response caching headers
@@ -465,7 +674,8 @@ Optimize for production deployment with monitoring and analytics.
 
 **Dependencies:** PR 5.3
 
-**Testing:** 
+**Testing:**
+
 - Run Lighthouse audit → Verify >90 performance score
 - Load chat with 100+ messages → Verify smooth scrolling
 - Test API rate limits → Verify 429 responses after threshold
@@ -481,6 +691,7 @@ Optimize for production deployment with monitoring and analytics.
 **Goal:** Track errors and usage in production
 
 **Key Components/Files:**
+
 - `lib/monitoring/sentry.ts` - Sentry error tracking (optional: use free tier)
 - `lib/monitoring/analytics.ts` - PostHog/Vercel Analytics
 - `app/error.tsx` - Global error boundary
@@ -489,7 +700,8 @@ Optimize for production deployment with monitoring and analytics.
 
 **Dependencies:** PR 6.1
 
-**Testing:** 
+**Testing:**
+
 - Trigger errors → Verify captured in Sentry
 - Navigate pages → Verify analytics events tracked
 - Check error.tsx → Verify friendly error page displays
@@ -505,6 +717,7 @@ Optimize for production deployment with monitoring and analytics.
 **Goal:** Launch DiveBuddy to production
 
 **Key Components/Files:**
+
 - `vercel.json` - Vercel deployment configuration
 - `.env.production.example` - Production environment template
 - `README.md` - Project overview, setup guide, deployment instructions
@@ -514,7 +727,8 @@ Optimize for production deployment with monitoring and analytics.
 
 **Dependencies:** PR 6.2
 
-**Testing:** 
+**Testing:**
+
 - Deploy to Vercel preview → Verify all features work
 - Test production environment variables → Verify Supabase, Gemini API connected
 - Run smoke tests on production URL
@@ -529,6 +743,7 @@ Optimize for production deployment with monitoring and analytics.
 4. Within each phase, PRs should be completed in order
 
 **Recommended Sprint Breakdown:**
+
 - Sprint 1-2: Phase 1 + Phase 2 (Foundation + AI)
 - Sprint 3: Phase 3 (Education feature)
 - Sprint 4: Phase 4 (Malaysia destinations)
@@ -538,17 +753,20 @@ Optimize for production deployment with monitoring and analytics.
 ## Testing Strategy
 
 ### Automated Testing
+
 - **Unit Tests:** Vitest for utility functions (chunking, embeddings, vector search)
 - **Integration Tests:** API routes with mock Gemini responses
 - **E2E Tests:** Playwright for critical flows (signup, chat, destination search)
 
 ### Manual Testing Per PR
+
 - **Functional:** Verify feature works as specified
 - **Agent Quality:** Test agent responses for accuracy and helpfulness
 - **RAG Accuracy:** Verify retrieved context is relevant to query
 - **UI/UX:** Check responsive design, loading states, error states
 
 ### Pre-Launch Testing
+
 - Load testing on chat API (handle 50+ concurrent users)
 - Cross-browser testing (Chrome, Safari, Firefox)
 - Mobile responsiveness testing
@@ -557,6 +775,7 @@ Optimize for production deployment with monitoring and analytics.
 ## Success Criteria
 
 ### MVP Success Metrics
+
 - ✅ Users can create account and login with email/password
 - ✅ Chat interface responds in <3 seconds with streaming
 - ✅ Education agent answers OW/AOW questions accurately (>80% relevance)
@@ -567,6 +786,7 @@ Optimize for production deployment with monitoring and analytics.
 - ✅ Users can save favorite destinations and access chat history
 
 ### Launch Success Metrics
+
 - ✅ Application deployed to production (Vercel)
 - ✅ 100+ APAC dive destinations in knowledge base
 - ✅ <2s page load time (Lighthouse score >90)
@@ -578,21 +798,25 @@ Optimize for production deployment with monitoring and analytics.
 To keep costs minimal during testing:
 
 ### Free Tier Usage
+
 - **Vercel:** Free Hobby plan (100GB bandwidth, unlimited deployments)
 - **Supabase:** Free tier (500MB database, 50MB file storage, 2GB bandwidth)
-- **Google Gemini API:** 
+- **Google Gemini API:**
   - Free tier: 15 requests/minute for Gemini 1.5 Flash
   - 1,500 requests/day for text-embedding-004
 - **Vercel AI SDK:** Free, open-source
 
 ### Cost Monitoring
+
 - Set up billing alerts in Google Cloud Console (Gemini API)
 - Monitor Supabase usage dashboard
 - Track API request counts in application logs
 - Implement rate limiting to prevent abuse
 
 ### Scalability Path
+
 When ready to scale beyond free tiers:
+
 - **Vercel Pro:** $20/month (better performance)
 - **Supabase Pro:** $25/month (better limits)
 - **Gemini API Paid:** Pay-per-use (still very affordable vs OpenAI)
@@ -600,22 +824,26 @@ When ready to scale beyond free tiers:
 ## Known Constraints & Considerations
 
 ### Technical Constraints
+
 - **Supabase pgvector limits:** Free tier has 500MB database limit; monitor storage usage
 - **Gemini API rate limits:** 15 RPM on free tier; implement queuing for production
 - **Content copyright:** All educational content must be original (no PADI/SSI copyrighted material)
 - **Embedding dimensions:** text-embedding-004 outputs 768 dimensions (ensure pgvector configured correctly)
 
 ### Content Considerations
+
 - **Educational accuracy:** OW/AOW content should be reviewed by certified instructor
 - **Destination data quality:** Verify dive site information is current and accurate
 - **Regional coverage:** Start with Malaysia (10+ sites), expand to APAC (100+ sites)
 - **Seasonal information:** Include best diving seasons for each destination
 
 ### Architecture Decisions
-- **Multi-agent vs. single LLM:** LangGraph adds complexity but improves specialization
-- **Supabase vs. separate DB/vector store:** Supabase simplifies stack, pgvector sufficient for MVP
-- **Gemini vs. OpenAI:** Gemini more cost-effective, competitive quality for this use case
+
+- **Multi-agent vs. single LLM:** Google AI Agent Framework provides specialized agents with tool integration, session management, and better accuracy through domain-specific expertise
+- **Supabase vs. separate DB/vector store:** Supabase simplifies stack, pgvector sufficient for MVP, integrates well with MCP pattern
+- **Gemini vs. OpenAI:** Gemini more cost-effective, competitive quality, native function calling and agent support
 - **Server-side rendering:** Critical for SEO on destination pages
+- **Session management:** MCP (Model Context Protocol) pattern for persistent context and conversation history
 
 ## Next Steps
 
