@@ -13,7 +13,6 @@ Key points:
 - Trim: position your weight and gear so you float horizontally.
 - BCD adjustments: make small, incremental changes.
 - Practice hovering in shallow water before attempting deeper dives.
-# Buoyancy Control
 
 Buoyancy control is the ability to maintain desired depth and trim while conserving air and energy. Mastering buoyancy is one of the most important skills for safe diving.
 
