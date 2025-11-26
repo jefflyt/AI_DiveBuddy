@@ -121,16 +121,19 @@ divebuddy/                          # Project root
 Located in `plans/divebuddy/`:
 
 **Phase 1 (Foundation):**
+
 - ✅ `1-nextjs-setup/` - 4 implementation files (initialize, shadcn/ui, landing page, env setup)
 - ✅ `2-supabase-setup/` - 4 implementation files (project creation, client install, schema, pgvector)
 - ✅ `3-auth-setup/` - 3 implementation files (Supabase auth, UI, middleware)
 - ✅ `4-chat-ui/` - Combined README with all chat UI components
 
 **Phase 2 (AI Integration):**
+
 - ✅ `5-gemini-and-embeddings/` - Combined README covering Gemini + embeddings
 - ✅ `2-ai-integration/` - 6 implementation files (Google AI Agent Framework)
 
 **Phase 3-6 (Features):**
+
 - ✅ `PHASES_3-6_OVERVIEW.md` - High-level guidance for education, destinations, APAC, production
 
 ### 1.3 Naming Conventions
@@ -149,10 +152,12 @@ Located in `plans/divebuddy/`:
 ### 2.1 Core Framework
 
 **Next.js 14+**
+
 - **Version:** 14.0.0 or higher
 - **Router:** App Router (not Pages Router)
 - **Rendering:** Hybrid (Server Components by default, Client Components with `'use client'`)
 - **Installation:**
+
   ```bash
   npx create-next-app@latest divebuddy --typescript --tailwind --app
   ```
@@ -558,7 +563,7 @@ return data
 
 **Request Flow:**
 
-```
+```bash
 User Input
     ↓
 Next.js API Route (/api/chat)
@@ -619,7 +624,7 @@ Provide a helpful, accurate response.`
 
 **Flow:**
 
-```
+```bash
 1. Document Ingestion
    ├─→ Raw content (markdown files)
    ├─→ Chunker (splits into 800-char chunks with 150-char overlap)
@@ -726,7 +731,7 @@ export class SessionManager {
 
 **Supabase Auth Pattern:**
 
-```
+```bash
 1. Signup
    ├─→ User submits email + password
    ├─→ Supabase creates auth.users entry

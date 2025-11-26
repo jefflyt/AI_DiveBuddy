@@ -1,6 +1,9 @@
 import Link from "next/link";
+import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import Badge from "@/components/ui/Badge";
 import Footer from "@/components/ui/Footer";
+import { GraduationCap, MapPin, MessageCircle, Sparkles } from "lucide-react";
 
 export default function Home() {
   return (
@@ -8,17 +11,31 @@ export default function Home() {
       <main className="mx-auto max-w-6xl px-6 py-24">
         <section className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-center">
           <div className="md:col-span-7">
-            <h1 className="text-5xl font-black leading-tight">DiveBuddy</h1>
-            <p className="mt-4 max-w-xl text-lg text-muted">AI-powered dive learning and trip planning — learn Open Water fundamentals, plan Malaysia & APAC dive trips, and get personalized recommendations.</p>
+            <Badge className="mb-4 bg-ocean-100 text-ocean-800">
+              <Sparkles className="mr-1 h-3 w-3" />
+              AI-Powered Diving Assistant
+            </Badge>
+
+            <h1 className="text-5xl font-black leading-tight">
+              DiveBuddy — Your AI Companion for <span className="text-ocean-600">Diving Adventures</span>
+            </h1>
+
+            <p className="mt-4 max-w-xl text-lg text-muted">
+              Learn Open Water fundamentals, plan Malaysia & APAC dive trips, and get personalized
+              recommendations from an AI-powered assistant.
+            </p>
 
             <div className="mt-6 flex items-center gap-4">
               <Link href="/learn" className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-md transition-all hover:shadow-lg">
                 Get Started
               </Link>
 
-              <Link href="/chat" className="inline-flex items-center justify-center rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-foreground hover:bg-muted/5">
-                Chat with DiveBuddy
-              </Link>
+              <Button asChild>
+                <Link href="/chat" className="inline-flex items-center justify-center rounded-full border border-border bg-transparent px-5 py-3 text-sm font-medium text-foreground hover:bg-muted/5">
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Chat with DiveBuddy
+                </Link>
+              </Button>
             </div>
           </div>
 
@@ -27,9 +44,9 @@ export default function Home() {
               <h3 className="text-lg font-semibold">Features</h3>
               <div className="mt-3 prose text-sm">
                 <ul className="space-y-3">
-                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">🎓</span> Interactive learning modules for Open Water and AOW</li>
-                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">🧠</span> RAG-powered AI answers backed by curated content</li>
-                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-primary text-primary-foreground">🗺️</span> Destination browser and trip planning for Malaysia & APAC</li>
+                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-ocean-100 text-ocean-600"><GraduationCap /></span> Interactive learning modules for Open Water and AOW</li>
+                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-ocean-100 text-ocean-600">🧠</span> RAG-powered AI answers backed by curated content</li>
+                  <li className="flex items-start gap-3"><span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded bg-ocean-100 text-ocean-600"><MapPin /></span> Destination browser and trip planning for Malaysia & APAC</li>
                 </ul>
               </div>
             </Card>
